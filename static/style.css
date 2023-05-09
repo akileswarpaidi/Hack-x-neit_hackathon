@@ -1,0 +1,61 @@
+/* Body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Heading styling */
+  h1, h2, h3 {
+    color: #333;
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  /* Route container styling */
+  #route-container {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 500px;
+  }
+  
+  /* Route styling */
+  #route-container h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  /* Alert styling */
+  .alert {
+    background-color: #f1c40f;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 500px;
+    border-radius: 5px;
+  }
+  
+  /* Button styling */
+  .button {
+    background-color: #3498db;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 20px auto;
+    border-radius: 5px;
+  }
+  
+  .button:hover {
+    background-color: #2980b9;
+    cursor: pointer;
+  }

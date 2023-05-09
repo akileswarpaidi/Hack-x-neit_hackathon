@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TRAFFIC MASTER</title>
+    <style>
+      /*------------------------------------------GENERAL------------------------------------------*/
+      body {
+        cursor: none;
+        margin: 0;
+        padding: 0;
+        font-family: Courier;
+        background: linear-gradient(
+          150deg,
+          hsla(0, 0%, 0%, 1) 0%,
+          hsla(226, 21%, 25%, 1) 50%,
+          hsla(192, 6%, 6%, 1) 100%
+        );
+        overflow: hidden;
+      }
+
+      #main-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+      }
+
+      #welcome {
+        color: white;
+        text-shadow: 10px 10px 10px black;
+        font-size: 95px;
+        margin-top: 10%;
+        z-index: 1;
+      }
+
+      #quote {
+        position: absolute;
+        margin-top: 5px;
+        margin-left: 5px;
+        width: 55%;
+        font-weight: bold;
+        font-size: 20px;
+        z-index: 1;
+        color: white;
+        text-shadow: 0px 2px 4px lightblue;
+        animation: quote-onLoad 0.4s;
+      }
+
+      @keyframes quote-onLoad {
+        from {
+          opacity: 0.2;
+          font-size: 17px;
+          width: 47%;
+        }
+        to {
+          opacity: 1;
+          font-size: 20px;
+          width: 55%;
+        }
+      }
+
+      /*------------------------------------------FORM------------------------------------------*/
+      form {
+        margin-top: 6%;
+        width: 35%;
+        height: auto;
+      }
+
+      .username_input_group,
+      .password_input_group {
+        position: relative;
+        float: left;
+        width: 49%;
+      }
+
+      .password_input_group {
+        float: right;
+      }
+
+      .username_input,
+      .password_input {
+        width: 100%;
+        margin-top: 4%;
+        border: 0;
+        border-bottom: 2px solid #9b9b9b;
+        outline: 0;
+        font-size: 20px;
+        color: white;
+        z-index: 2;
+        padding: 7px 0;
+        background: transparent;
+        transition: border-color 0.2s;
+      }
+      .username_input::placeholder,
+      .password_input::placeholder {
+        color: transparent;
+      }
+
+      .username_label,
+      .password_label {
+        position: absolute;
+        top: 0;
+        display: block;
+        font-size: 20px;
+        color: #9b9b9b;
+        z-index: 1;
+        transition: 0.2s;
+        pointer-events: none;
+      }
+      /* for some reson only the username lable z index is above the input form... idk why */
+
+      .username_input:placeholder-shown ~ .username_label,
+      .password_input:placeholder-shown ~ .password_label {
+        font-size: 25px;
+        top: 17px;
+      }
+
+      .username_input:focus,
+      .password_input:focus {
+        padding-bottom: 6px;
+        font-weight: bold;
+        font-size: 20px;
+        border-width: 3px;
+        border-image: linear-gradient(
+          90deg,
+          hsla(243, 100%, 43%, 1) 0%,
+          hsla(185, 100%, 50%, 1) 100%
+        );
+        border-image-slice: 1;
+      }
+      .username_input:focus ~ .username_label,
+      .password_input:focus ~ .password_label {
+        position: absolute;
+        top: 0;
+        display: block;
+        font-size: 16px;
+        color: #0670ec;
+        font-weight: bold;
+        transition: 0.2s;
+      }
+
+      /* reset input */
+      .username_input:required,
+      .username_input:invalid,
+      .passwords_input:required,
+      .password_input:invalid {
+        box-shadow: none;
+      }
+      /*------------------------------------------SUBMIT------------------------------------------*/
+      .glow-on-hover {
+        width: 35%;
+        margin-top: 5%;
+        margin-left: 32.5%;
+        position: relative;
+        height: 50px;
+        font-size: 20px;
+        letter-spacing: 3px;
+        border: none;
+        outline: none;
+        color: #fff;
+        background: #111;
+        cursor: pointer;
+        z-index: 0;
+        border-radius: 10px;
+        transition: 0.2s;
+      }
+
+      .glow-on-hover:hover {
+        transform: scale(1.12);
+      }
+
+      .glow-on-hover:before {
+        content: "";
+        background: linear-gradient(
+          45deg,
+          #ff0000,
+          #ff7300,
+          #fffb00,
+          #48ff00,
+          #00ffd5,
+          #002bff,
+          #7a00ff,
+          #ff00c8,
+          #ff0000
+        );
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        background-size: 400%;
+        z-index: -1;
+        filter: blur(5px);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        animation: glowing 20s linear infinite;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+        border-radius: 10px;
+      }
+
+      .glow-on-hover:active {
+        color: #000;
+      }
+
+      .glow-on-hover:active:after {
+        background: transparent;
+      }
+
+      .glow-on-hover:hover:before {
+        opacity: 1;
+      }
+
+      .glow-on-hover:after {
+        z-index: -1;
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #111;
+        left: 0;
+        top: 0;
+        border-radius: 10px;
+      }
+
+      @keyframes glowing {
+        0% {
+          background-position: 0 0;
+        }
+        50% {
+          background-position: 400% 100%;
+        }
+        100% {
+          background-position: 0 0;
+        }
+      }
+      /*------------------------------------------IPS------------------------------------------*/
+      #ip-space,
+      #mouse-space {
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .single-ip {
+        position: absolute;
+        font-size: 20px;
+        font-weight: bold;
+        /*  color: #A5EAFC;*/
+        color: #63c8ff;
+        text-shadow: 0.7px 0.7px black;
+        filter: blur(1.4px);
+        z-index: -2;
+      }
+      /*------------------------------------------MOUSE------------------------------------------*/
+      .mouse-dot {
+        position: absolute;
+        border-radius: 50%;
+        z-index: -1;
+        background: radial-gradient(
+          circle,
+          hsla(181, 100%, 74%, 1) 0%,
+          hsla(196, 100%, 87%, 1) 100%
+        );
+        /*  box-shadow: 0px 0px 1px 1px white;*/
+        filter: blur(0.2px);
+        pointer-events: none;
+      }
+
+      /*------------------------------------------TRADE-MARK------------------------------------------*/
+      #trade-mark {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin-bottom: 5px;
+        margin-left: 5px;
+        color: #fff;
+        font-size: 20px;
+        word-spacing: -4px;
+        text-decoration: none;
+        text-shadow: 0 0 1px #fff, 0 0 1.3px #fff, 0 0 2px #fff, 0 0 4px #0af,
+          0 0 6px #0af, 0 0 8px #0af, 0 0 10px #0af, 0 0 12px #0af;
+        animation: flicker 1.5s infinite alternate;
+      }
+
+      @keyframes flicker {
+        /*showing the light*/
+        0%,
+        18%,
+        22%,
+        25%,
+        53%,
+        57%,
+        100% {
+          text-shadow: 0 0 1px #fff, 0 0 1.3px #fff, 0 0 2px #fff, 0 0 4px #0af,
+            0 0 6px #0af, 0 0 8px #0af, 0 0 10px #0af, 0 0 12px #0af;
+        }
+        /* removing for split second */
+        20%,
+        24%,
+        55% {
+          text-shadow: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- quate of the day -->
+    <div id="quote"></div>
+    <!-- where the random IPs be floating -->
+    <div id="ip-space"></div>
+    <!-- where the mouse trail will be floating -->
+    <div id="mouse_space"></div>
+    <!-- main content of the page -->
+    <div id="main-content">
+      <div id="welcome">WELCOME TO TRAFFIC MASTER</div>
+      <!-- the login form -->
+      <form action="/login" method="get">
+        <div class="username_input_group"></div>
+        <button class="glow-on-hover" type="submit" id="submit_button">
+          LAUNCH
+        </button>
+      </form>
+    </div>
+    <!-- my trade mark :) -->
+    <a id="trade-mark" href="http://google.com" target="_blank">BARI &trade;</a>
+    <script>
+      // welcome effect
+      function change_text(word, iter_number, seconds, iter_per_second) {
+        defalt_text = word;
+        chars = defalt_text.split("");
+
+        // creating a random chars array the length of default text
+        random_chars = [];
+        for (let i = 0; i < chars.length; i++) {
+          let randomChar = String.fromCharCode(
+            Math.floor(Math.random() * 26) + 65
+          );
+          random_chars.push(randomChar);
+        }
+        // combining the result after calculating the index to keep the original
+        keep_index = Math.floor(
+          (iter_number / (seconds * iter_per_second)) * chars.length
+        );
+        comined_text = chars
+          .slice(0, keep_index)
+          .concat(random_chars.slice(keep_index));
+
+        // adding the spaces back to final text for better look
+        for (let i = 0; i < chars.length; i++) {
+          if (chars[i] == " ") {
+            comined_text[i] = " ";
+          }
+        }
+
+        // edge case on the last iteration
+        if (iter_number + 1 == seconds * iter_per_second) {
+          return defalt_text;
+        }
+
+        // convert char array to string
+        final_text = comined_text.join("");
+        return final_text;
+      }
+
+      function main_change(word, seconds, iter_per_second) {
+        var counter = 0;
+        const intervalId = setInterval(() => {
+          text = change_text(word, counter, seconds, iter_per_second);
+          document.querySelector("#welcome").innerHTML = text;
+          counter++;
+          if (counter === seconds * iter_per_second) {
+            clearInterval(intervalId);
+          }
+        }, 1000 / iter_per_second);
+      }
+      main_change("WELCOME TO TRAFFIC MASTER!", 1.4, 40);
+      const welcome_text = document.querySelector("#welcome");
+      welcome_text.addEventListener("mouseover", function () {
+        main_change("WELCOME TO TRAFFIC MASTER!", 1, 30);
+      });
+      ///////////////////////////////////////////////
+      // quote effect
+      QUOTE_DB = [
+      '"Artificial intelligence is the future, not only for Russia, but for all humankind." ~ Vladimir Putin, President of Russia',
+      '"AI is the new electricity." ~ Andrew Ng, AI researcher and entrepreneur',
+      '"We are entering a new world where data may be more important than software." ~ Tim O\'Reilly, technology entrepreneur',
+      '"Artificial intelligence, deep learning, machine learning—whatever you’re doing if you don’t understand it learn it. Because otherwise, you’re going to be a dinosaur within 3 years." ~ Mark Cuban, entrepreneur and investor',
+      '"AI and machine learning will transform healthcare and make it more personalized and precise." ~ Fei-Fei Li, AI researcher and professor',
+      '"AI is not a silver bullet, but it can help organizations detect and respond to threats faster." ~ Theresa Payton, former White House CIO',
+      '"AI can help us to solve problems that seemed unsolvable and make the impossible possible." ~ Demis Hassabis, founder and CEO of DeepMind',
+      '"The biggest threat to AI is not that it will become evil or sentient, but that it will be used in ways that are unethical or harmful." ~ Stuart Russell, AI researcher and professor',
+      '"AI is a tool for humans to extend our cognitive abilities, not a replacement for them." ~ Kai-Fu Lee, technology entrepreneur and investor',
+      '"The real power of AI is not just in automation, but in augmentation of human intelligence." ~ Satya Nadella, CEO of Microsoft.'
+  ]
+  
+
+      function main_quote() {
+        quote_div = document.querySelector("#quote");
+        rand_quote = QUOTE_DB[Math.floor(Math.random() * QUOTE_DB.length)];
+        quote_div.innerHTML = rand_quote;
+      }
+
+      main_quote();
+      ///////////////////////////////////////
+      // mouse trail
+      // constants
+      MAX_LOC_DIFF = 12;
+      MAX_SIZE = 13;
+      MIN_SIZE = 2;
+      MAX_SPEED = 8;
+      MIN_SPEED = 4;
+      SPEED_LOSS = 0.17;
+      SIZE_LOSS = 0.5;
+      OPACITY_LOSS = 0.04;
+      DOT_PER_ITER = 3;
+      UPDATE_TIME = 25;
+      var SCREEN_HIGHT = window.innerHeight;
+      var SCREEN_WIDTH = window.innerWidth;
+
+      current_dots = {};
+      create_index = 0;
+      mouse_space = document.querySelector("#mouse_space");
+
+      // create a logic point storing the point data
+      function create_dot(x, y) {
+        loc = [
+          (Math.random() - 0.5) * MAX_LOC_DIFF + x,
+          (Math.random() - 0.5) * MAX_LOC_DIFF + y,
+        ];
+        size = Math.random() * (MAX_SIZE - MIN_SIZE) + MIN_SIZE;
+        speed = Math.random() * (MAX_SPEED - MIN_SPEED) + MIN_SPEED;
+        dir = [(Math.random() - 0.5) * speed, (Math.random() - 0.5) * speed];
+        dot = [loc, size, dir];
+        return dot;
+      }
+
+      // create a phisical div later to be connected to a point
+      function create_div() {
+        dot_div = document.createElement("div");
+        dot_div.className = "mouse-dot";
+        dot_div.id = "mouse-dot-" + create_index.toString();
+        dot_div.style.opacity = 1;
+        mouse_space.appendChild(dot_div);
+        return dot_div;
+      }
+
+      // update the data of the dot based on its params
+      function update_dot(dot) {
+        dot[0][0] = dot[0][0] + dot[2][0]; // update x
+        dot[0][1] = dot[0][1] + dot[2][1]; // update y
+        dot[1] = dot[1] - SIZE_LOSS; // update size
+        dot[2][0] =
+          dot[2][0] > 0 ? dot[2][0] - SPEED_LOSS : dot[2][0] + SPEED_LOSS; // update velocity
+        dot[2][1] =
+          dot[2][1] > 0 ? dot[2][1] - SPEED_LOSS : dot[2][1] + SPEED_LOSS; // update velocity
+      }
+
+      function update_div_base_dot(index, dot) {
+        dot_div = document.querySelector("#mouse-dot-" + index.toString());
+        dot_div.style.left = dot[0][0].toString() + "px";
+        dot_div.style.top = dot[0][1].toString() + "px";
+        dot_div.style.width = dot[1].toString() + "px";
+        dot_div.style.height = dot[1].toString() + "px";
+        dot_div.style.opacity = dot_div.style.opacity - OPACITY_LOSS;
+        // removing div if size < 0;
+        if (dot[1] < 0) {
+          dot_div.remove();
+          delete current_dots.index;
+          delete current_dots[index];
+        }
+      }
+
+      function main_point_update() {
+        // updating the dots values
+        for (let key in current_dots) {
+          update_dot(current_dots[key]);
+        }
+
+        // updating the divs based on the dots
+        for (let key in current_dots) {
+          update_div_base_dot(key, current_dots[key]);
+        }
+
+        setTimeout(main_point_update, UPDATE_TIME);
+      }
+
+      // create new points on mouse momvents
+      window.addEventListener(
+        "mousemove",
+        function (event) {
+          // creating random logic dot object
+          x = event.pageX;
+          y = event.pageY;
+          if (
+            !(
+              x > SCREEN_WIDTH * 0.32 &&
+              x < SCREEN_WIDTH * 0.67 &&
+              y > SCREEN_HIGHT * 0.55 &&
+              y < SCREEN_HIGHT * 0.615
+            )
+          ) {
+            for (i = 0; i < DOT_PER_ITER; i++) {
+              dot = create_dot(x, y);
+              div = create_div();
+              update_div_base_dot(create_index, dot); // creating a div with the properties of the logic object
+              current_dots[create_index] = dot;
+              create_index++;
+            }
+          }
+        },
+        false
+      );
+
+      // update window size on zoom event
+      window.onresize = function () {
+        SCREEN_HIGHT = window.innerHeight;
+        SCREEN_WIDTH = window.innerWidth;
+      };
+
+      main_point_update();
+      ///////////////////////////////
+      // ips effect
+      // CONSTANTS
+      var SCREEN_HIGHT = window.innerHeight;
+      var SCREEN_WIDTH = window.innerWidth;
+      const IP_AMOUNT = 40;
+      const DISTANCE_PER_ITER = 1.3;
+
+      // generates single random IP
+      function random_ip() {
+        var ip =
+          Math.floor(Math.random() * 256).toString() +
+          "." +
+          Math.floor(Math.random() * 256).toString() +
+          "." +
+          Math.floor(Math.random() * 256).toString() +
+          "." +
+          Math.floor(Math.random() * 256).toString();
+        return ip;
+      }
+
+      // returns random point on the screen
+      function random_point() {
+        var width = Math.floor(Math.random() * SCREEN_WIDTH);
+        var height = Math.floor(Math.random() * (SCREEN_HIGHT - 20));
+        // changeing bad values of height
+        if (height > 0 && height < SCREEN_HIGHT * 0.1) {
+          // on the quote
+          height =
+            height +
+            Math.floor(Math.random() * SCREEN_HIGHT * 0.8 + SCREEN_HIGHT * 0.1);
+        }
+        if (height > SCREEN_HIGHT * 0.45 && height < SCREEN_HIGHT * 0.6) {
+          // on the login buttons
+          height =
+            height +
+            (Math.round(Math.random()) * 2 - 1) *
+              Math.floor(
+                Math.random() * SCREEN_HIGHT * 0.3 + SCREEN_HIGHT * 0.1
+              );
+        }
+        return [width, height];
+      }
+
+      // creates an object with the IPs, their location and their direction
+      function init_ips() {
+        ips_arr = {};
+        for (i = 0; i < IP_AMOUNT; i++) {
+          ip = random_ip();
+          loc = random_point();
+          dir = Math.random() < 0.5 ? "R" : "L";
+          ips_arr[ip] = [loc, dir];
+        }
+        return ips_arr;
+      }
+
+      function main_mover() {
+        ip_space = document.querySelector("#ip-space");
+        // removing old divs
+        ips_divs = document.querySelectorAll(".single-ip");
+        ips_divs.forEach((div) => {
+          div.remove();
+        });
+
+        // creating the divs for the IPs in the array
+        for (ip in ips_arr) {
+          ip_div = document.createElement("div");
+          ip_div.className = "single-ip";
+          ip_div.style.left = ips_arr[ip][0][0].toString() + "px";
+          ip_div.style.top = ips_arr[ip][0][1].toString() + "px";
+          ip_div.innerHTML = ip;
+          ip_space.appendChild(ip_div);
+        }
+
+        // updating the X values of the array
+        for (ip in ips_arr) {
+          ips_arr[ip][0][0] =
+            ips_arr[ip][1] == "R"
+              ? ips_arr[ip][0][0] + DISTANCE_PER_ITER
+              : ips_arr[ip][0][0] - DISTANCE_PER_ITER;
+        }
+
+        // removing out of bounds IPs from logic array
+        for (ip in ips_arr) {
+          if (ips_arr[ip][0][0] + 200 < 0 || ips_arr[ip][0][0] > SCREEN_WIDTH) {
+            delete ips_arr.ip;
+            delete ips_arr[ip];
+          }
+        }
+
+        // creating back th amount of IPs that was removed
+        for (i = 0; i < IP_AMOUNT - Object.keys(ips_arr).length; i++) {
+          ip = random_ip();
+          dir = Math.random() < 0.5 ? "R" : "L";
+          loc = [dir == "R" ? -165 : SCREEN_WIDTH, random_point()[1]];
+          ips_arr[ip] = [loc, dir];
+        }
+
+        setTimeout(main_mover, 30);
+      }
+      // global veriable
+      ips_arr = init_ips();
+      main_mover();
+      ////////////////////////////////////
+      // should be scripts in the html part, but not allowd
+      <!-- submit form using enter press -->
+      const submitButton = document.querySelector("#submit_button");
+      document.addEventListener("keypress", function (event) {
+        if (event.keyCode === 13) {
+          submitButton.click();
+        }
+      });
+    </script>
+  </body>
+</html>

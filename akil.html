@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Find Routes</title>
+    <style type="text/css">
+      #map {
+        height: 500px;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Find Routes</h2>
+    <label for="source">Source:</label>
+    <input type="text" id="source" />
+    <label for="destination">Destination:</label>
+    <input type="text" id="destination" />
+    <label for="mode">Mode of Travel:</label>
+    <select id="mode">
+      <option value="driving">Driving</option>
+      <option value="walking">Walking</option>
+      <option value="bicycling">Bicycling</option>
+      <option value="transit">Transit</option>
+    </select>
+    <button onclick="showRoutes()">Find Routes</button>
+
+    <div id="map"></div>
+
+    <div id="route-summary"></div>
+    <div id="intermediate-places"></div>
+
+    <script type="text/javascript">
+      // Initialize Google Maps
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 10,
+          center: { lat: 37.7749, lng: -122.4194 }, // Default to San Francisco
+        });
+      }
+
+      // Show possible routes between source and destination addresses
+      function showRoutes() {
+        var source = document.getElementById("source").value;
+        var destination = document.getElementById("destination").value;
+        var mode = document.getElementById("mode").value;
+
+        var map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 10,
+          center: { lat: 37.7749, lng: -122.4194 },
+        });
+
+        var directionsService = new google.maps.DirectionsService();
+        var directionsRenderer = new google.maps.DirectionsRenderer({
+          map: map,
+          polylineOptions: {
+            strokeColor: "#FF0000",
+          },
+        });
+
+        directionsService.route(
+          {
+            origin: source,
+            destination: destination,
+            travelMode: mode.toUpperCase(),
+          },
+          function (result, status) {
+            if (status == "OK") {
+              directionsRenderer.setDirections(result);
+
+              var route = result.routes[0];
+              var summaryPanel = document.getElementById("route-summary");
+              summaryPanel.innerHTML = "";
+              // Display summary of the selected route
+              for (var i = 0; i < route.legs.length; i++) {
+                var routeSegment = i + 1;
+                summaryPanel.innerHTML +=
+                  "<b>Route Segment: " + routeSegment + "</b><br>";
+                summaryPanel.innerHTML += route.legs[i].start_address + " to ";
+                summaryPanel.innerHTML += route.legs[i].end_address + "<br>";
+                summaryPanel.innerHTML +=
+                  route.legs[i].distance.text + "<br><br>";
+              }
+
+              // Display 5 intermediate places between the source and destination
+              var steps = route.legs[0].steps;
+              var intermediatePlaces = [];
+              for (var i = 0; i < steps.length; i++) {
+                var place = steps[i].start_location;
+                if (i > 0) {
+                  var prevPlace = steps[i - 1].start_location;
+                  var distance =
+                    google.maps.geometry.spherical.computeDistanceBetween(
+                      place,
+                      prevPlace
+                    );
+                  if (distance > 1000) {
+                    // Distance threshold to add an intermediate place
+                    intermediatePlaces.push(steps[i - 1].end_address);
+                  }
+                }
+              }
+              intermediatePlaces.push(route.legs[0].end_address);
+
+              var intermediatePanel = document.getElementById(
+                "intermediate-places"
+              );
+              intermediatePanel.innerHTML = "";
+              for (var i = 0; i < intermediatePlaces.length; i++) {
+                intermediatePanel.innerHTML += intermediatePlaces[i] + "<br>";
+              }
+            }
+          }
+        );
+      }
+    </script>
+
+    <div id="route-summary"></div>
+    <div id="intermediate-places"></div>
+
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0E2-VFWnUjcoN63GjKLE-QZI94kcjEaU&callback=initMap"
+    ></script>
+  </body>
+</html>

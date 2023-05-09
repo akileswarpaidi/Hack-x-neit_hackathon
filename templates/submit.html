@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Optimized Route</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <h1>Real-time Alert</h1>
+    <h2>The optimized route selected by AI:</h2>
+    <div id="route-container">
+      <h3>Route {{ route }}</h3>
+      <div id="map-container">
+        <iframe
+          src="{{ url }}"
+          width="100%"
+          height="500"
+          frameborder="0"
+        ></iframe>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+      window.open("{{ url }}", "_blank");
+      window.alert("Optimal Route: {route}");
+      window.close();
+
+      Swal.fire({
+        title: "Optimal Route",
+        text: "Route {{ route }}",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+    </script>
+  </body>
+</html>

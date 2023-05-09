@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Maps</title>
+    <style>
+      body {
+        background: url("https://images5.alphacoders.com/353/353018.jpg") no-repeat center center fixed; 
+background-size: cover;
+        background-size: cover;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px auto;
+        margin-top: 160px;
+        max-width: 300px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input,
+      select {
+        display: block;
+        margin-bottom: 10px;
+        width: 89%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+      }
+      select{
+        width: 95%;
+      }
+      button {
+        display: block;
+        margin: 0 auto;
+        padding: 10px 20px;
+        background: #0077cc;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #0066b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Google Maps</h1>
+      <form method="get" action="/submit">
+        <label for="origin">Source:</label>
+        <input type="text" id="origin" name="origin" />
+
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" name="destination" />
+
+        <label for="mode">Mode of Transportation:</label>
+        <select id="mode" name="mode">
+          <option value="driving">Driving</option>
+          <option value="walking">Walking</option>
+          <option value="bicycling">Bicycling</option>
+          <option value="transit">Transit</option>
+        </select>
+
+        <button type="submit" id="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>

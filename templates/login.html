@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+	<style>
+		body {
+			background-image: url("https://thumbs.dreamstime.com/z/location-maps-online-application-vector-illustration-modern-smartphone-opened-app-geolocation-pins-possible-routes-144385996.jpg");
+			background-size: cover;
+			background-position: center;
+            overflow: hidden;
+            background-repeat: no-repeat;
+            background-size: cover;
+			background-position: center center;
+            text-shadow: 1.5px 1.5px #000;
+			background-attachment: fixed;
+		}
+		h1 {
+			color: white;
+			text-align: center;
+			margin-top: 50px;
+			font-size: 60px;
+			text-shadow: 3px 3px black;
+			animation: pulse 2s infinite;
+		}
+		form {
+			margin-top: 50px;
+			text-align: center;
+			animation: slide-up 1s;
+		}
+		label {
+			color: white;
+			font-size: 30px;
+			text-shadow: 2px 2px black;
+			display: block;
+			margin-top: 30px;
+			animation: slide-left 1s;
+		}
+		input[type="email"], input[type="password"], input[type="submit"] {
+			border: none;
+			border-radius: 10px;
+			padding: 10px;
+			font-size: 20px;
+			margin-top: 10px;
+			width: 300px;
+			background-color: rgba(255, 255, 255, 0.7);
+			animation: slide-right 1s;
+		}
+		input[type="submit"] {
+			background-color: #4CAF50;
+			color: white;
+			cursor: pointer;
+			transition: background-color 0.5s;
+			animation: slide-right 1s;
+		}
+		input[type="submit"]:hover {
+			background-color: #3E8E41;
+			animation: none;
+		}
+		p {
+			color: white;
+			font-size: 20px;
+			text-shadow: 2px 2px black;
+			margin-top: 20px;
+			text-align: center;
+			animation: slide-down 1s;
+		}
+		a {
+			color: white;
+			text-shadow: 2px 2px black;
+			transition: color 0.5s;
+		}
+		a:hover {
+			color: #FFD700;
+		}
+		@keyframes pulse {
+			0% {transform: scale(1);}
+			50% {transform: scale(1.2);}
+			100% {transform: scale(1);}
+		}
+		@keyframes slide-up {
+			0% {transform: translateY(100px); opacity: 0;}
+			100% {transform: translateY(0); opacity: 1;}
+		}
+		@keyframes slide-left {
+			0% {transform: translateX(-100px); opacity: 0;}
+			100% {transform: translateX(0); opacity: 1;}
+		}
+		@keyframes slide-right {
+			0% {transform: translateX(100px); opacity: 0;}
+			100% {transform: translateX(0); opacity: 1;}
+		}
+		@keyframes slide-down {
+			0% {transform: translateY(-100px); opacity: 0;}
+			100% {transform: translateY(0); opacity: 1;}
+		}
+	</style>
+</head>
+<body>
+	<h1>Login</h1>
+	<form method="post" action="/login">
+		<label for="email">Email:</label>
+		<input type="email" id="email" name="email" required><br><br>
+		<label for="password">Password:</label>
+		
+
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+      /><br /><br />
+      <input type="submit" value="Login" />
+    </form>
+    <br />
+    <p>Don't have an account? <a href="/signup">Signup</a></p>
+  </body>
+</html>
